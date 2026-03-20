@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 /**
  * Debounce a value by specified delay
@@ -6,8 +6,15 @@ import { useState, useEffect } from 'react';
  */
 export function useDebounce<T>(value: T, delay: number = 500): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    // Set immediately on first render to avoid stale initial state
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     const timer = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
