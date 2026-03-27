@@ -1,5 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 
+/** Options for configuring the useLocalStorage hook. */
+export interface UseLocalStorageOptions<T> {
+  /** Custom serializer (defaults to JSON.stringify). */
+  serializer?: (value: T) => string;
+  /** Custom deserializer (defaults to JSON.parse). */
+  deserializer?: (raw: string) => T;
+}
+
 export function useLocalStorage<T>(
   key: string,
   initialValue: T
